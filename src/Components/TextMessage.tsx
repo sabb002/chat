@@ -14,7 +14,7 @@ export default function TextMessage({ userName, currentUser, text }: Props) {
   return (
     <div
       className={`mx-3 py-3 flex items-end ${
-        isCurrentUser ? " flex-row-reverse" : ""
+        isCurrentUser ? " flex-row-reverse text-right" : "text-left"
       }`}
     >
       <div

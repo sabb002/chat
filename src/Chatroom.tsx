@@ -89,7 +89,7 @@ export default function Chatroom({ userName }: Props) {
       <Navbar />
       <div>
         <div
-          className="mb-[65px] pb-2 w-[min(100%,600px)] mx-auto min-h-[calc(100vh-65px)] md:bg-black md:bg-opacity-20 md:backdrop-blur-md md:drop-shadow-md"
+          className="mb-[65px] pb-2 w-[min(100%,800px)] mx-auto min-h-[calc(100vh-65px)] md:bg-black md:bg-opacity-20 md:backdrop-blur-md md:drop-shadow-md"
           style={{ scrollBehavior: "smooth" }}
         >
           {messages.map((message, index) => {
