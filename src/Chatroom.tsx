@@ -17,10 +17,14 @@ import Navbar from "./Components/Navbar";
 interface Props {
   userName: string | null;
 }
+interface Messages {
+  userName: string | any;
+  text: string | any;
+}
 
 export default function Chatroom({ userName }: Props) {
   const [text, setText] = useState("");
-  const [messages, setMessages] = useState<string[]>([]);
+  const [messages, setMessages] = useState<Messages[]>([]);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -50,9 +54,10 @@ export default function Chatroom({ userName }: Props) {
     );
 
     const unsubscribe = onSnapshot(queryData, (snapshot) => {
-      const updatedMessages: string[] = [];
+      const updatedMessages: Messages[] = [];
       snapshot.forEach((doc) => {
-        updatedMessages.push(doc.data().text);
+        const { userName, text } = doc.data();
+        updatedMessages.push({ userName, text });
       });
       setMessages(updatedMessages.reverse());
     });
@@ -75,8 +80,13 @@ export default function Chatroom({ userName }: Props) {
     >
       <Navbar />
       <div>
-        <div className="mb-[65px] pb-2 w-[min(80%,600px)] mx-auto min-h-[calc(100vh-65px)] bg-black bg-opacity-20 backdrop-blur-md drop-shadow-md ">
-          {messages.map((text, index) => {
+        <div
+          className="mb-[65px] pb-2 w-[min(80%,600px)] mx-auto min-h-[calc(100vh-65px)] bg-black bg-opacity-20 backdrop-blur-md drop-shadow-md"
+          style={{ scrollBehavior: "smooth" }}
+        >
+          {messages.map((message, index) => {
+            const { userName, text } = message;
+
             return (
               <div key={index}>
                 <TextMessage userName={userName} text={text} />
@@ -90,7 +100,7 @@ export default function Chatroom({ userName }: Props) {
           className="input-form fixed bottom-0 px-2 py-3 bg-white
           flex w-full h-[65px] justify-center lg:justify-center"
         >
-          <input
+          <textarea
             className=" w-[min(80%,800px)] min-h-fit p-2 bg-gray-300 rounded-tl-lg rounded-bl-lg outline-none text-sm font-sans font-bold focus:bg-gray-200 "
             value={text}
             onChange={(e) => setText(e.target.value)}
