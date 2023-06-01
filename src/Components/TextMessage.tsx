@@ -32,7 +32,7 @@ export default function TextMessage({ userName, currentUser, text }: Props) {
         <div className=" text-xs text-white">{userName}</div>
 
         <div
-          className={` h-fit px-3 py-1  text-xs md:text-sm text-black font-semibold  rounded-br-lg rounded-bl-lg whitespace-pre-wrap
+          className={` max-w-[80vw] h-fit px-3 py-1  text-xs md:text-sm text-black font-semibold  rounded-br-lg rounded-bl-lg whitespace-pre-wrap break-word
           ${
             isCurrentUser
               ? "bg-blue-500 text-white rounded-tl-lg"

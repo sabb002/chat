@@ -32,11 +32,13 @@ export default function Chatroom({ userName }: Props) {
     e.preventDefault();
     setText("");
 
-    await addDoc(collection(db, "messages"), {
-      userName,
-      text,
-      timestamp: serverTimestamp(),
-    });
+    if (text.trim() !== "") {
+      await addDoc(collection(db, "messages"), {
+        userName,
+        text,
+        timestamp: serverTimestamp(),
+      });
+    }
   };
 
   useEffect(() => {
@@ -51,7 +53,7 @@ export default function Chatroom({ userName }: Props) {
     const queryData = query(
       collection(db, "messages"),
       orderBy("timestamp", "desc"),
-      limit(15)
+      limit(20)
     );
 
     const unsubscribe = onSnapshot(queryData, (snapshot) => {
