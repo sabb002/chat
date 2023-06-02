@@ -13,7 +13,7 @@ export default function AvatarCarousel({
 }: Props) {
   return (
     <div className="w-full flex justify-center items-center mb-10">
-      <div className="flex gap-5">
+      <div className="w-[60%] flex flex-wrap justify-center items-center gap-5">
         {avatarOptions.map((avatar, index) => {
           return (
             <div

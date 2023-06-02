@@ -14,6 +14,7 @@ export default function Login({
   setSelectedAvatar,
 }: Props) {
   const [inputName, setInputName] = useState("");
+  const [error, setError] = useState(false);
 
   const avatarOptions = [
     "/avatar/avatar1.png",
@@ -24,9 +25,16 @@ export default function Login({
     "/avatar/avatar6.png",
   ];
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputName(e.target.value);
+    setError(false);
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (inputName.trim() !== "" && selectedAvatar) {
+    if (!selectedAvatar) {
+      setError(true);
+    } else if (inputName.trim() !== "" && selectedAvatar) {
       setUserName(inputName.trim().toLowerCase());
       localStorage.setItem("userName", inputName);
       localStorage.setItem("selectedAvatar", selectedAvatar);
@@ -35,22 +43,27 @@ export default function Login({
 
   return (
     <div
-      className="w-full h-screen flex items-center justify-center bg-slate-700"
+      className="w-full h-screen flex items-center justify-center "
       style={{
-        backgroundImage: "url(/images/login.jpg)",
+        backgroundImage: "url(/images/login2-min.jpg)",
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
+        backgroundPosition: "center",
       }}
     >
       <form
         onSubmit={handleSubmit}
-        className="relative w-[min(80%,500px)] h-[400px] bg-black bg-opacity-20 backdrop-blur-md drop-shadow-md flex flex-col justify-center items-center rounded-lg"
+        className="relative w-[min(90%,600px)] h-[450px] bg-white bg-opacity-10 backdrop-blur-md drop-shadow-md flex flex-col justify-center items-center rounded-lg border-[1px] border-t-[#753a88] border-r-[#cc2b5e] border-b-[#cc2b5e] border-l-[#753a88]"
       >
         <div className="absolute top-10 text-2xl font-bold text-gray-200">
           আমার <span className="text-green-600">চ্যাটের</span> অ্যাপ
         </div>
 
-        <div className="mb-5 text-xs font-semibold text-gray-200">
+        <div
+          className={`mb-5 text-xs font-semibold ${
+            error ? "text-[#cc2b5e] animate-pulse" : "text-gray-200"
+          }`}
+        >
           CHOOSE AN AVATAR
         </div>
 
@@ -66,20 +79,16 @@ export default function Login({
           placeholder="Enter your nickname"
           spellCheck={false}
           value={inputName}
-          onChange={(e) => setInputName(e.target.value)}
+          onChange={handleChange}
         />
-        {inputName && (
-          <div className="mt-3 text-white text-xs">
-            <span className="font-semibold text-md">{`${inputName}`}</span>,
-            আপনাকে কি সবাই ভোদাই ডাকে?
-          </div>
-        )}
-        <button
-          type="submit"
-          className=" absolute bottom-10 px-5 py-1 bg-green-700 hover:bg-white focus:bg-white text-white text-sm rounded-full hover:text-green-500 focus:text-green-600 outline-none"
-        >
-          {inputName ? <span>হ্যাঁ</span> : <span>হ্যালো</span>}
-        </button>
+        {inputName && selectedAvatar ? (
+          <button
+            type="submit"
+            className=" absolute bottom-10 px-5 py-1 bg-green-700 hover:bg-white hover:bg-opacity-5 text-white text-sm rounded-full hover:text-green-500 focus:text-green-600 outline-none"
+          >
+            চলুন
+          </button>
+        ) : null}
       </form>
     </div>
   );
