@@ -15,16 +15,18 @@ import TextMessage from "./Components/TextMessage";
 import Navbar from "./Components/Navbar";
 
 interface Props {
-  userName: string | null;
-  selectedAvatar: string | null;
+  userName: string;
+  selectedAvatar: string;
+  admin: boolean;
 }
 interface Messages {
   userName: string | any;
   text: string | any;
   selectedAvatar: string | any;
+  admin: boolean | any;
 }
 
-export default function Chatroom({ userName, selectedAvatar }: Props) {
+export default function Chatroom({ admin, userName, selectedAvatar }: Props) {
   const [text, setText] = useState("");
   const [currentUser, setCurrentUser] = useState<string | null>(null);
   const [messages, setMessages] = useState<Messages[]>([]);
@@ -36,6 +38,7 @@ export default function Chatroom({ userName, selectedAvatar }: Props) {
 
     if (text.trim() !== "") {
       await addDoc(collection(db, "messages"), {
+        admin,
         userName,
         text,
         selectedAvatar,
@@ -62,8 +65,8 @@ export default function Chatroom({ userName, selectedAvatar }: Props) {
     const unsubscribe = onSnapshot(queryData, (snapshot) => {
       const updatedMessages: Messages[] = [];
       snapshot.forEach((doc) => {
-        const { userName, text } = doc.data();
-        updatedMessages.push({ userName, text, selectedAvatar });
+        const { userName, text, selectedAvatar, admin } = doc.data();
+        updatedMessages.push({ userName, text, selectedAvatar, admin });
       });
       setMessages(updatedMessages.reverse());
     });
@@ -81,6 +84,7 @@ export default function Chatroom({ userName, selectedAvatar }: Props) {
     const current = localStorage.getItem("userName");
     setCurrentUser(current);
   }, []);
+
   return (
     <div
       className=" w-[100vw] h-[100vh] overflow-x-hidden"
@@ -98,11 +102,12 @@ export default function Chatroom({ userName, selectedAvatar }: Props) {
           style={{ scrollBehavior: "smooth" }}
         >
           {messages.map((message, index) => {
-            const { userName, text, selectedAvatar } = message;
+            const { userName, text, selectedAvatar, admin } = message;
 
             return (
               <div key={index}>
                 <TextMessage
+                  admin={admin}
                   userName={userName}
                   currentUser={currentUser}
                   text={text}

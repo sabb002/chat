@@ -15,6 +15,7 @@ export default function Login({
 }: Props) {
   const [inputName, setInputName] = useState("");
   const [error, setError] = useState(false);
+  const [nameError, setNameError] = useState(false);
 
   const avatarOptions = [
     "/avatar/avatar1.png",
@@ -28,16 +29,23 @@ export default function Login({
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputName(e.target.value);
     setError(false);
+    setNameError(false);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!selectedAvatar) {
-      setError(true);
-    } else if (inputName.trim() !== "" && selectedAvatar) {
+    if (
+      inputName.trim().toLowerCase() !== "sabbir" &&
+      inputName.trim() !== "" &&
+      selectedAvatar
+    ) {
       setUserName(inputName.trim().toLowerCase());
       localStorage.setItem("userName", inputName);
       localStorage.setItem("selectedAvatar", selectedAvatar);
+    } else if (inputName.trim().toLowerCase() === "sabbir") {
+      setNameError(true);
+    } else {
+      setError(true);
     }
   };
 
@@ -81,6 +89,11 @@ export default function Login({
           value={inputName}
           onChange={handleChange}
         />
+        {nameError && (
+          <div className=" my-3 font-bold text-sm text-red-500">
+            Sorry, You are not sabbir.
+          </div>
+        )}
         {inputName && selectedAvatar ? (
           <button
             type="submit"
