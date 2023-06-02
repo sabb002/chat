@@ -1,12 +1,16 @@
-import { BsFillPersonFill } from "react-icons/bs";
-
 interface Props {
   userName: string | null;
   currentUser: string | null;
   text: string;
+  selectedAvatar: string;
 }
 
-export default function TextMessage({ userName, currentUser, text }: Props) {
+export default function TextMessage({
+  userName,
+  currentUser,
+  text,
+  selectedAvatar,
+}: Props) {
   const isCurrentUser = userName === currentUser;
 
   const formattedText = text.replace(/\n/g, "<br/>");
@@ -16,12 +20,8 @@ export default function TextMessage({ userName, currentUser, text }: Props) {
         isCurrentUser ? " flex-row-reverse " : ""
       }`}
     >
-      <div
-        className={`w-[25px] h-[25px] flex flex-shrink-0 items-center justify-center m-2 ${
-          isCurrentUser ? " bg-blue-600 text-white" : "bg-gray-200"
-        } rounded-full`}
-      >
-        <BsFillPersonFill size={15} />
+      <div className="w-[25px] h-[25px] flex flex-shrink-0 items-center justify-center m-2">
+        <img className=" rounded-full" src={selectedAvatar} alt="X" />
       </div>
 
       <div

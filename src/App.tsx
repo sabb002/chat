@@ -4,20 +4,27 @@ import Login from "./Login";
 
 function App() {
   const [userName, setUserName] = useState<string>("");
+  const [selectedAvatar, setSelectedAvatar] = useState<string>("");
 
   useEffect(() => {
     const storedName = localStorage.getItem("userName");
-    if (storedName) {
+    const storedAvatar = localStorage.getItem("selectedAvatar");
+    if (storedName && storedAvatar) {
       setUserName(storedName);
+      setSelectedAvatar(storedAvatar);
     }
   }, []);
 
   return (
     <>
-      {userName === "" ? (
-        <Login setUserName={setUserName} />
+      {userName !== "" && selectedAvatar !== "" ? (
+        <Chatroom userName={userName} selectedAvatar={selectedAvatar} />
       ) : (
-        <Chatroom userName={userName} />
+        <Login
+          selectedAvatar={selectedAvatar}
+          setUserName={setUserName}
+          setSelectedAvatar={setSelectedAvatar}
+        />
       )}
     </>
   );

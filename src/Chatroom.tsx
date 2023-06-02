@@ -16,13 +16,15 @@ import Navbar from "./Components/Navbar";
 
 interface Props {
   userName: string | null;
+  selectedAvatar: string | null;
 }
 interface Messages {
   userName: string | any;
   text: string | any;
+  selectedAvatar: string | any;
 }
 
-export default function Chatroom({ userName }: Props) {
+export default function Chatroom({ userName, selectedAvatar }: Props) {
   const [text, setText] = useState("");
   const [currentUser, setCurrentUser] = useState<string | null>(null);
   const [messages, setMessages] = useState<Messages[]>([]);
@@ -36,6 +38,7 @@ export default function Chatroom({ userName }: Props) {
       await addDoc(collection(db, "messages"), {
         userName,
         text,
+        selectedAvatar,
         timestamp: serverTimestamp(),
       });
     }
@@ -60,7 +63,7 @@ export default function Chatroom({ userName }: Props) {
       const updatedMessages: Messages[] = [];
       snapshot.forEach((doc) => {
         const { userName, text } = doc.data();
-        updatedMessages.push({ userName, text });
+        updatedMessages.push({ userName, text, selectedAvatar });
       });
       setMessages(updatedMessages.reverse());
     });
@@ -95,7 +98,7 @@ export default function Chatroom({ userName }: Props) {
           style={{ scrollBehavior: "smooth" }}
         >
           {messages.map((message, index) => {
-            const { userName, text } = message;
+            const { userName, text, selectedAvatar } = message;
 
             return (
               <div key={index}>
@@ -103,6 +106,7 @@ export default function Chatroom({ userName }: Props) {
                   userName={userName}
                   currentUser={currentUser}
                   text={text}
+                  selectedAvatar={selectedAvatar}
                 />
               </div>
             );
