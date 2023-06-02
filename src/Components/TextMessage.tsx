@@ -42,12 +42,12 @@ export default function TextMessage({
           ></div>
         ) : (
           <div
-            className={` max-w-[80vw] h-fit px-3 py-1 text-sm font-semibold  rounded-br-lg rounded-bl-lg whitespace-pre-wrap break-word
-          ${
-            isCurrentUser
-              ? "bg-blue-500 text-white rounded-tl-lg"
-              : " bg-gray-200 text-black rounded-tl-lg"
-          }`}
+            className={`max-w-[80vw] h-fit px-3 py-1 text-sm font-semibold rounded-br-lg rounded-bl-lg whitespace-pre-wrap break-word
+    ${
+      isCurrentUser
+        ? "bg-blue-500 text-white rounded-tl-lg"
+        : "bg-gray-200 text-black"
+    }`}
             dangerouslySetInnerHTML={{ __html: formattedText }}
           ></div>
         )}

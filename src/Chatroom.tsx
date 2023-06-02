@@ -59,7 +59,7 @@ export default function Chatroom({ admin, userName, selectedAvatar }: Props) {
     const queryData = query(
       collection(db, "messages"),
       orderBy("timestamp", "desc"),
-      limit(20)
+      limit(50)
     );
 
     const unsubscribe = onSnapshot(queryData, (snapshot) => {

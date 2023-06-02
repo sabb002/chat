@@ -64,7 +64,7 @@ export default function Login({
         className="relative w-[min(90%,600px)] h-[450px] bg-white bg-opacity-10 backdrop-blur-md drop-shadow-md flex flex-col justify-center items-center rounded-lg border-[1px] border-t-[#753a88] border-r-[#cc2b5e] border-b-[#cc2b5e] border-l-[#753a88]"
       >
         <div className="absolute top-10 text-2xl font-bold text-gray-200">
-          আমার <span className="text-green-600">চ্যাটের</span> অ্যাপ
+          <span className="text-green-600">চ্যাটের</span> অ্যাপ
         </div>
 
         <div
