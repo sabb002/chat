@@ -16,6 +16,7 @@ export default function Login({
   const [inputName, setInputName] = useState("");
   const [error, setError] = useState(false);
   const [nameError, setNameError] = useState(false);
+  const [langError, setLangError] = useState(false);
 
   const avatarOptions = [
     "/avatar/avatar1.png",
@@ -25,38 +26,48 @@ export default function Login({
     "/avatar/avatar5.png",
     "/avatar/avatar6.png",
   ];
+  const englishNameRegex = /^[a-zA-Z\s]*$/; // Regular Expression
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputName(e.target.value);
     setError(false);
     setNameError(false);
+    setLangError(false);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (
-      inputName.trim().toLowerCase() !== "sabbir" &&
-      inputName.trim() !== "" &&
-      selectedAvatar
-    ) {
-      setUserName(inputName.trim().toLowerCase());
-      localStorage.setItem("userName", inputName);
-      localStorage.setItem("selectedAvatar", selectedAvatar);
-    } else if (inputName.trim().toLowerCase() === "sabbir") {
-      setNameError(true);
+    if (!englishNameRegex.test(inputName)) {
+      setLangError(true);
     } else {
-      setError(true);
+      if (
+        inputName.toLowerCase().includes("s") &&
+        inputName.toLowerCase().includes("a") &&
+        inputName.toLowerCase().includes("b") &&
+        inputName.toLowerCase().includes("i") &&
+        inputName.toLowerCase().includes("r")
+      ) {
+        setNameError(true);
+      } else if (
+        !nameError &&
+        !langError &&
+        inputName.trim() !== "" &&
+        selectedAvatar
+      ) {
+        setUserName(inputName.trim().toLowerCase());
+        localStorage.setItem("userName", inputName);
+        localStorage.setItem("selectedAvatar", selectedAvatar);
+      } else {
+        setError(true);
+      }
     }
   };
 
   return (
     <div
-      className="w-full h-screen flex items-center justify-center "
+      className="w-full h-screen flex items-center justify-center"
       style={{
-        backgroundImage: "url(/images/login2-min.jpg)",
-        backgroundRepeat: "no-repeat",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
+        background: "linear-gradient(to left, #141e30, #243b55)",
       }}
     >
       <form
@@ -92,6 +103,11 @@ export default function Login({
         {nameError && (
           <div className=" my-3 font-bold text-sm text-red-500">
             Sorry, You are not sabbir.
+          </div>
+        )}
+        {langError && (
+          <div className=" my-3 font-bold text-sm text-red-500">
+            only English text is accepted.
           </div>
         )}
         {inputName && selectedAvatar ? (

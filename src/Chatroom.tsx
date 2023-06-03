@@ -49,11 +49,13 @@ export default function Chatroom({ admin, userName, selectedAvatar }: Props) {
 
   useEffect(() => {
     if (messages.length > 0) {
-      containerRef.current?.scrollIntoView({ behavior: "smooth" });
+      containerRef.current?.scrollIntoView({
+        behavior: "smooth",
+      });
     }
   }, [messages]);
 
-  // retrieve last 15 messages
+  // retrieve last 50 messages
 
   const getMessages = () => {
     const queryData = query(
@@ -87,9 +89,8 @@ export default function Chatroom({ admin, userName, selectedAvatar }: Props) {
 
   return (
     <div
-      className=" w-[100vw] h-[100vh] overflow-x-hidden"
+      className="bg-[url(/images/light-chatroom.jpg)] dark:bg-[url(/images/dark-chatroom.jpg)]"
       style={{
-        backgroundImage: "url(/images/doodle.jpg)",
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
         backgroundPosition: "center",
@@ -98,7 +99,7 @@ export default function Chatroom({ admin, userName, selectedAvatar }: Props) {
       <Navbar />
       <div>
         <div
-          className="mb-[65px] pb-2 w-[min(100%,800px)] mx-auto min-h-[calc(100vh-65px)] md:bg-black md:bg-opacity-10 backdrop-blur-sm md:drop-shadow-md"
+          className="mb-[65px] pb-2 w-[min(95%,800px)] mx-auto min-h-[calc(100vh-65px)] bg-slate-800 bg-opacity-50 backdrop-blur-sm md:drop-shadow-lg"
           style={{ scrollBehavior: "smooth" }}
         >
           {messages.map((message, index) => {

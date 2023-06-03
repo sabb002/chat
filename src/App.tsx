@@ -21,7 +21,7 @@ function App() {
   }, []);
 
   return (
-    <>
+    <div className="overflow-hidden">
       {userName !== "" && selectedAvatar !== "" ? (
         <Chatroom
           admin={admin}
@@ -35,7 +35,7 @@ function App() {
           setSelectedAvatar={setSelectedAvatar}
         />
       )}
-    </>
+    </div>
   );
 }
 
