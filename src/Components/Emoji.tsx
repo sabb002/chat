@@ -16,7 +16,7 @@ export default function Emoji({ setSelectedEmoji }: Props) {
   return (
     <>
       <div
-        className="mx-4 text-gray-600 cursor-pointer"
+        className="mx-4 text-gray-300 dark:text-gray-600 cursor-pointer"
         onClick={() => setEmojiOn(!emojiOn)}
       >
         <MdAddReaction size={15} />

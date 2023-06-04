@@ -74,8 +74,9 @@ export default function Login({
         onSubmit={handleSubmit}
         className="relative w-[min(90%,600px)] h-[450px] bg-white bg-opacity-10 backdrop-blur-md drop-shadow-md flex flex-col justify-center items-center rounded-lg border-[1px] border-t-[#753a88] border-r-[#cc2b5e] border-b-[#cc2b5e] border-l-[#753a88]"
       >
-        <div className="absolute top-10 text-2xl font-bold text-gray-200">
-          <span className="text-green-600">চ্যাটের</span> অ্যাপ
+        <div className="absolute flex items-center top-6 md:top-10 bg-clip-text text-transparent bg-gradient-to-tr from-[#f12711] to-[#FF6B51] ">
+          <img className="w-20" src="chat.ico"></img>
+          <h1 className=" px-2 text-2xl font-black">WEE-CHAT</h1>
         </div>
 
         <div
@@ -107,15 +108,23 @@ export default function Login({
         )}
         {langError && (
           <div className=" my-3 font-bold text-sm text-red-500">
-            only English text is accepted.
+            only{" "}
+            <a
+              href="https://en.wikipedia.org/wiki/English_language"
+              target="blank"
+              className=" inline underline cursor-pointer"
+            >
+              English
+            </a>{" "}
+            letters are accepted.
           </div>
         )}
         {inputName && selectedAvatar ? (
           <button
             type="submit"
-            className=" absolute bottom-10 px-5 py-1 bg-green-700 hover:bg-white hover:bg-opacity-5 text-white text-sm rounded-full hover:text-green-500 focus:text-green-600 outline-none"
+            className=" absolute bottom-10 px-5 py-1 bg-green-700 hover:bg-white hover:bg-opacity-5 text-white text-sm font-bold rounded-full hover:text-green-500 focus:text-green-600 outline-none"
           >
-            চলুন
+            GO
           </button>
         ) : null}
       </form>
