@@ -56,6 +56,17 @@ export default function Chatroom({ admin, userName, selectedAvatar }: Props) {
     }
   }, [messages]);
 
+  const showNotification = (sender: string, text: string) => {
+    const notification = new Notification(sender, {
+      body: text,
+      icon: "icon.ico",
+    });
+
+    notification.onclick = () => {
+      notification.close();
+    };
+  };
+
   // retrieve last 50 messages
 
   const getMessages = () => {
@@ -72,6 +83,18 @@ export default function Chatroom({ admin, userName, selectedAvatar }: Props) {
         updatedMessages.push({ userName, text, selectedAvatar, admin });
       });
       setMessages(updatedMessages.reverse());
+
+      //show notification
+      if (updatedMessages.length > messages.length) {
+        const newMessage = updatedMessages[updatedMessages.length - 1];
+        if ("Notification" in window) {
+          Notification?.requestPermission().then((permission) => {
+            if (permission === "granted") {
+              showNotification(newMessage.userName, newMessage.text);
+            }
+          });
+        }
+      }
     });
 
     return () => unsubscribe();
