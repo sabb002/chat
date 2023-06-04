@@ -1,3 +1,6 @@
+import { useState } from "react";
+import Emoji from "./Emoji";
+
 interface Props {
   admin: boolean;
   userName: string | null;
@@ -13,6 +16,7 @@ export default function TextMessage({
   text,
   selectedAvatar,
 }: Props) {
+  const [selectedEmoji, setSelectedEmoji] = useState<string>("");
   const isCurrentUser = userName === currentUser;
   const formattedText = text.replace(/\n/g, "<br/>");
 
@@ -23,11 +27,11 @@ export default function TextMessage({
       }`}
     >
       <div className="w-[25px] h-[25px] flex flex-shrink-0 items-center justify-center m-2">
-        <img className=" rounded-full" src={selectedAvatar} alt="X" />
+        <img className=" rounded-full" src={selectedAvatar} alt="x" />
       </div>
 
       <div
-        className={`flex flex-col ${
+        className={` relative flex flex-col ${
           isCurrentUser ? "items-end" : " items-start"
         }`}
       >
@@ -45,12 +49,24 @@ export default function TextMessage({
             className={`max-w-[80vw] h-fit px-3 py-1 text-xs rounded-br-lg rounded-bl-lg whitespace-pre-wrap break-word font-semibold ${
               isCurrentUser
                 ? "bg-blue-500 text-white rounded-tl-lg"
-                : "bg-gray-200 text-black"
+                : "bg-gray-200 text-black rounded-tr-lg"
             }`}
             dangerouslySetInnerHTML={{ __html: formattedText }}
           ></div>
         )}
+        {selectedEmoji && (
+          <div
+            className={`absolute text-xs cursor-pointer ${
+              isCurrentUser
+                ? "bottom-[-5px] left-[-5px]"
+                : "bottom-[-5px] right-[-5px]"
+            }`}
+          >
+            {selectedEmoji}
+          </div>
+        )}
       </div>
+      <Emoji setSelectedEmoji={setSelectedEmoji} />
     </div>
   );
 }

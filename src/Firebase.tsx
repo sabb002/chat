@@ -1,15 +1,18 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
+import { getAnalytics } from "firebase/analytics";
 
 const config = {
-  apiKey: "AIzaSyBXFrbD6Pf1eft2Jh7_jclmxDu-JHfN8Mg",
-  authDomain: "chat-cf3c6.firebaseapp.com",
-  projectId: "chat-cf3c6",
-  storageBucket: "chat-cf3c6.appspot.com",
-  messagingSenderId: "939891331352",
-  appId: "1:939891331352:web:942cba568a7499846a4e6d",
+  apiKey: "AIzaSyBVl-qHSaEnyvMtEjixDhUbSPfhy-2qHJI",
+  authDomain: "wee-hub.firebaseapp.com",
+  projectId: "wee-hub",
+  storageBucket: "wee-hub.appspot.com",
+  messagingSenderId: "753196544338",
+  appId: "1:753196544338:web:8da6d2d0c17b64b19e0a8b",
+  measurementId: "G-2WE0WWH82C",
 };
 
 const app = initializeApp(config);
+getAnalytics(app);
 
 export const db = getFirestore(app);

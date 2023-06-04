@@ -30,6 +30,7 @@ export default function Chatroom({ admin, userName, selectedAvatar }: Props) {
   const [text, setText] = useState("");
   const [currentUser, setCurrentUser] = useState<string | null>(null);
   const [messages, setMessages] = useState<Messages[]>([]);
+
   const containerRef = useRef<HTMLDivElement>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
