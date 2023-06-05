@@ -65,7 +65,7 @@ export default function Login({
 
   return (
     <div
-      className="w-full h-screen flex items-center justify-center"
+      className="w-full h-screen flex items-center justify-center overflow-hidden"
       style={{
         background: "linear-gradient(to left, #141e30, #243b55)",
       }}
@@ -76,7 +76,7 @@ export default function Login({
       >
         <div className="absolute flex items-center top-6 md:top-10 bg-clip-text text-transparent bg-gradient-to-tr from-[#f12711] to-[#FF6B51] ">
           <img className="w-20" src="chat.ico"></img>
-          <h1 className=" px-2 text-2xl font-black">WEE-CHAT</h1>
+          <h1 className=" px-2 text-2xl font-black">WEE-HUB</h1>
         </div>
 
         <div

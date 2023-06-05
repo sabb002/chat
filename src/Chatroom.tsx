@@ -26,10 +26,15 @@ interface Messages {
 
 export default function Chatroom({ admin, userName, selectedAvatar }: Props) {
   const [darkMode, setDarkMode] = useState(true);
-  const [currentUser, setCurrentUser] = useState<string | null>(null);
+  const [currentUser, setCurrentUser] = useState<string | null>("");
   const [messages, setMessages] = useState<Messages[]>([]);
 
   const containerRef = useRef<HTMLDivElement>(null);
+  const audioRef = useRef<HTMLAudioElement>(null);
+
+  const playMessageSound = () => {
+    audioRef.current?.play();
+  };
 
   useEffect(() => {
     if (messages.length > 0) {
@@ -81,6 +86,7 @@ export default function Chatroom({ admin, userName, selectedAvatar }: Props) {
           document.title = `New Message (${newMessage.userName})`;
         }
       }
+      playMessageSound();
       if (document.visibilityState === "visible") {
         document.title = "wee-hub";
       }
@@ -112,27 +118,31 @@ export default function Chatroom({ admin, userName, selectedAvatar }: Props) {
       ></div>
 
       <Navbar darkMode={darkMode} setDarkMode={setDarkMode} />
+
       <div
-        className="mx-auto pt-[60px] pb-2 w-[min(95%,800px)] min-h-screen bg-slate-800 bg-opacity-40 backdrop-blur-sm"
+        className=" mx-auto pt-[110px] pb-2 w-[min(95%,800px)] min-h-screen bg-slate-800 bg-opacity-40 backdrop-blur-sm"
         style={{ scrollBehavior: "smooth" }}
       >
         {messages.map((message, index) => {
           const { userName, text, selectedAvatar, admin } = message;
+          const isCurrentUser = userName === currentUser;
 
           return (
             <div key={index}>
               <TextMessage
                 admin={admin}
                 userName={userName}
-                currentUser={currentUser}
+                isCurrentUser={isCurrentUser}
                 text={text}
                 selectedAvatar={selectedAvatar}
               />
+              <audio ref={audioRef} src="/sound/message.mp3"></audio>;
             </div>
           );
         })}
         <div ref={containerRef}></div>
       </div>
+
       <div className="pt-[60px]"></div>
       <Form admin={admin} userName={userName} selectedAvatar={selectedAvatar} />
     </div>

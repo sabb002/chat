@@ -3,27 +3,26 @@ import Emoji from "./Emoji";
 
 interface Props {
   admin: boolean;
-  userName: string | null;
-  currentUser: string | null;
+  userName: string;
   text: string;
   selectedAvatar: string;
+  isCurrentUser: boolean;
 }
 
 export default function TextMessage({
   admin,
   userName,
-  currentUser,
   text,
   selectedAvatar,
+  isCurrentUser,
 }: Props) {
   const [selectedEmoji, setSelectedEmoji] = useState<string>("");
-  const isCurrentUser = userName === currentUser;
   const formattedText = text.replace(/\n/g, "<br/>");
 
   return (
     <div
       className={`mx-3 py-2 flex items-end ${
-        isCurrentUser ? " flex-row-reverse " : ""
+        isCurrentUser ? " flex-row-reverse " : "flex-row"
       }`}
     >
       <div className="w-[25px] h-[25px] flex flex-shrink-0 items-center justify-center m-2">
