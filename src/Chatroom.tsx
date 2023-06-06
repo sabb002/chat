@@ -89,11 +89,15 @@ export default function Chatroom({
         const newMessage = updatedMessages[updatedMessages.length - 1];
         if (document.visibilityState !== "visible") {
           if ("Notification" in window) {
-            Notification?.requestPermission().then((permission) => {
-              if (permission === "granted") {
-                showNotification(newMessage.userName, newMessage.text);
-              }
-            });
+            if (Notification.permission !== "granted") {
+              Notification.requestPermission().then((permission) => {
+                if (permission === "granted") {
+                  showNotification(newMessage.userName, newMessage.text);
+                }
+              });
+            } else {
+              showNotification(newMessage.userName, newMessage.text);
+            }
           }
           document.title = `New Message - ${newMessage.userName}`;
         }
