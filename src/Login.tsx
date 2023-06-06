@@ -4,12 +4,12 @@ import AvatarCarousel from "./Components/AvatarCarousel";
 
 interface Props {
   selectedAvatar: string;
-  setUserName: React.Dispatch<React.SetStateAction<string>>;
+  setStoredUserName: React.Dispatch<React.SetStateAction<string>>;
   setSelectedAvatar: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export default function Login({
-  setUserName,
+  setStoredUserName,
   selectedAvatar,
   setSelectedAvatar,
 }: Props) {
@@ -54,7 +54,7 @@ export default function Login({
         inputName.trim() !== "" &&
         selectedAvatar
       ) {
-        setUserName(inputName.trim().toLowerCase());
+        setStoredUserName(inputName.trim().toLowerCase());
         localStorage.setItem("userName", inputName);
         localStorage.setItem("selectedAvatar", selectedAvatar);
       } else {

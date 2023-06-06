@@ -13,7 +13,7 @@ import Navbar from "./Components/Navbar";
 import Form from "./Components/Form";
 
 interface Props {
-  userName: string;
+  storedUserName: string;
   selectedAvatar: string;
   admin: boolean;
 }
@@ -24,11 +24,13 @@ interface Messages {
   admin: boolean | any;
 }
 
-export default function Chatroom({ admin, userName, selectedAvatar }: Props) {
+export default function Chatroom({
+  admin,
+  storedUserName,
+  selectedAvatar,
+}: Props) {
   const [darkMode, setDarkMode] = useState(true);
-  const [currentUser, setCurrentUser] = useState<string | null>("");
   const [messages, setMessages] = useState<Messages[]>([]);
-
   const containerRef = useRef<HTMLDivElement>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
 
@@ -55,6 +57,15 @@ export default function Chatroom({ admin, userName, selectedAvatar }: Props) {
     };
   };
 
+  //retrieve current user from localstorage
+
+  useEffect(() => {
+    getMessages();
+    if (document.visibilityState === "visible") {
+      document.title = "wee-hub";
+    }
+  }, []);
+
   // retrieve last 50 messages
 
   const getMessages = () => {
@@ -73,9 +84,10 @@ export default function Chatroom({ admin, userName, selectedAvatar }: Props) {
       setMessages(updatedMessages.reverse());
 
       //show notification
-      if (document.visibilityState !== "visible") {
-        if (updatedMessages.length > messages.length) {
-          const newMessage = updatedMessages[updatedMessages.length - 1];
+
+      if (updatedMessages.length > messages.length) {
+        const newMessage = updatedMessages[updatedMessages.length - 1];
+        if (document.visibilityState !== "visible") {
           if ("Notification" in window) {
             Notification?.requestPermission().then((permission) => {
               if (permission === "granted") {
@@ -83,31 +95,23 @@ export default function Chatroom({ admin, userName, selectedAvatar }: Props) {
               }
             });
           }
-          document.title = `New Message (${newMessage.userName})`;
+          document.title = `New Message - ${newMessage.userName}`;
         }
-      }
-      playMessageSound();
-      if (document.visibilityState === "visible") {
-        document.title = "wee-hub";
+
+        if (newMessage?.userName !== storedUserName) {
+          console.log(newMessage.userName + " !== " + storedUserName);
+
+          playMessageSound();
+        }
       }
     });
 
     return () => unsubscribe();
   };
 
-  useEffect(() => {
-    getMessages();
-  }, []);
-
-  //retrieve current user from localstorage
-
-  useEffect(() => {
-    const current = localStorage.getItem("userName");
-    setCurrentUser(current);
-  }, []);
-
   return (
     <div className={`${darkMode && "dark"}`}>
+      <audio ref={audioRef} src="/sound/message.mp3"></audio>
       <div
         className="fixed inset-0 z-[-1] bg-[url(/images/light-chatroom.jpg)] dark:bg-[url(/images/dark-chatroom.jpg)]"
         style={{
@@ -125,7 +129,7 @@ export default function Chatroom({ admin, userName, selectedAvatar }: Props) {
       >
         {messages.map((message, index) => {
           const { userName, text, selectedAvatar, admin } = message;
-          const isCurrentUser = userName === currentUser;
+          const isCurrentUser = userName === storedUserName;
 
           return (
             <div key={index}>
@@ -136,7 +140,6 @@ export default function Chatroom({ admin, userName, selectedAvatar }: Props) {
                 text={text}
                 selectedAvatar={selectedAvatar}
               />
-              <audio ref={audioRef} src="/sound/message.mp3"></audio>;
             </div>
           );
         })}
@@ -144,7 +147,11 @@ export default function Chatroom({ admin, userName, selectedAvatar }: Props) {
       </div>
 
       <div className="pt-[60px]"></div>
-      <Form admin={admin} userName={userName} selectedAvatar={selectedAvatar} />
+      <Form
+        admin={admin}
+        storedUserName={storedUserName}
+        selectedAvatar={selectedAvatar}
+      />
     </div>
   );
 }

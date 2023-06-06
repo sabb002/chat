@@ -4,12 +4,12 @@ import { useState } from "react";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 
 interface Props {
-  userName: string;
+  storedUserName: string;
   selectedAvatar: string;
   admin: boolean;
 }
 
-export default function Form({ admin, userName, selectedAvatar }: Props) {
+export default function Form({ admin, storedUserName, selectedAvatar }: Props) {
   const [text, setText] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -17,6 +17,7 @@ export default function Form({ admin, userName, selectedAvatar }: Props) {
     setText("");
 
     if (text.trim() !== "") {
+      const userName = storedUserName;
       await addDoc(collection(db, "messages"), {
         admin,
         userName,

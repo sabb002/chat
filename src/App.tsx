@@ -3,7 +3,7 @@ import Chatroom from "./Chatroom";
 import Login from "./Login";
 
 function App() {
-  const [userName, setUserName] = useState<string>("");
+  const [storedUserName, setStoredUserName] = useState<string>("");
   const [selectedAvatar, setSelectedAvatar] = useState<string>("");
   const [admin, setAdmin] = useState(false);
 
@@ -12,7 +12,7 @@ function App() {
     const storedAvatar = localStorage.getItem("selectedAvatar");
 
     if (storedName && storedAvatar) {
-      setUserName(storedName);
+      setStoredUserName(storedName);
       setSelectedAvatar(storedAvatar);
     }
     if (storedName?.toLowerCase() === "sabbir") {
@@ -22,16 +22,16 @@ function App() {
 
   return (
     <>
-      {userName !== "" && selectedAvatar !== "" ? (
+      {storedUserName !== "" && selectedAvatar !== "" ? (
         <Chatroom
           admin={admin}
-          userName={userName}
+          storedUserName={storedUserName}
           selectedAvatar={selectedAvatar}
         />
       ) : (
         <Login
           selectedAvatar={selectedAvatar}
-          setUserName={setUserName}
+          setStoredUserName={setStoredUserName}
           setSelectedAvatar={setSelectedAvatar}
         />
       )}
